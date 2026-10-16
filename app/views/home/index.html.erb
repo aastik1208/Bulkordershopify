@@ -1,0 +1,36 @@
+<%= content_tag :div, nil, id: 'shopify-app-page-title', data: { title: 'Home' } %>
+
+<% content_for :page_action do %>
+<!--   <p class="col-md-6 col-xs-6">
+  </p>
+  <p class="col-md-6 col-xs-6">
+  </p> -->
+<%= render 'setting_form' %>
+<% end %>
+<%= render 'order_uploads/filter_form' %>
+
+<div class="col-md-12 col-xs-12">
+  <ul class="nav nav-tabs">
+    <li class="<%= 'active' if(@selected_tab_value == 'admin_end' || @selected_tab_value.blank?) %>"><a href="#admin-end" data-toggle="tab" aria-expanded="true">Admin End</a></li>
+    <li class="<%= 'active' if(@selected_tab_value == 'store_front') %>" ><a href="#store-front" data-toggle="tab" aria-expanded="false">Store Front</a></li>
+  </ul>
+
+  <div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade <%= 'active in' if(@selected_tab_value == 'admin_end' || @selected_tab_value.blank?) %>" id="admin-end">
+      <% if @admin_end_order_uploads.empty? %>
+        <h3>No Bulk Order Uploaded from admin end.</h3>
+      <% else %>
+        <%= render partial: 'order_uploads/order_uploads', object: @admin_end_order_uploads %>
+      <% end %>
+    </div>
+
+    <div class="tab-pane fade <%= 'active in' if(@selected_tab_value == 'store_front') %>" id="store-front">
+      <% if @store_front_order_uploads.empty? %>
+        <h3>No Bulk Order Uploaded from store front.</h3>
+      <% else %>
+        <%= render partial: 'order_uploads/order_uploads', object: @store_front_order_uploads %>
+      <% end %>
+    </div>
+  </div>
+</div>
+

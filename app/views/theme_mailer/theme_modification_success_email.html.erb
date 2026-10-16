@@ -1,0 +1,9 @@
+<div>
+  <p><%= t(:greeting, scope: [:theme_mailer, :theme_modification_success_email], shop_owner: @shop_owner) %></p>
+  <br>
+  <p><%= t(:first_line, scope: [:theme_mailer, :theme_modification_success_email], shop_domain: @shop.shopify_domain) %></p>
+  <p><%= t(:second_line, scope: [:theme_mailer, :theme_modification_success_email]) %></p>
+  <br>
+  <p><%= t(:closing_line1, scope: [:theme_mailer, :theme_modification_success_email]) %></p>
+  <p><%= t(:closing_line2, scope: [:theme_mailer, :theme_modification_success_email]) %></p>
+</div>

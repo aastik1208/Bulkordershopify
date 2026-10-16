@@ -1,0 +1,5 @@
+
+1. Remove the file, 'section/product-bulk-order.liquid' from your theme.
+2. Remove below mentioned code from the file, 'template/product.liquid':-
+    {% section 'product-bulk-order' %}
+

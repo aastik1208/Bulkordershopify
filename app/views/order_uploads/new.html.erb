@@ -1,0 +1,69 @@
+<%= content_tag :div, nil, id: 'shopify-app-page-title', data: { title: 'Create Bulk Order' } %>
+
+<%= javascript_include_tag 'sample_file_download_link_editor.js' %>
+
+<% content_for :page_action do %>
+  <p class="col-md-6 col-xs-6"></p>
+  <p class="col-md-6 col-xs-6">
+    <%= link_to t(:bulk_orders, scope: :action), root_path, data: { disable_with: 'Loading....' }, class: "btn btn-info col-md-4 col-xs-8 col-md-offset-8 col-xs-offset-4" %>
+  </p>
+<% end %>
+
+<div class="col-md-7 col-xs-12 col-md-offset-2">
+  <div class="well">
+    <%= form_with model: @order_upload, local: true, class: 'form-horizontal' do |form| %>
+      <fieldset>
+        <legend>Create Bulk Order Request</legend>
+
+        <div class="form-group <%= 'has-error' if has_error?(:shopify_product_id, @order_upload) %>">
+          <%= form.label :shopify_product_id, 'Select Product ', class: 'required-field control-label col-xs-4 col-md-3' %>
+          <div class="col-xs-8 col-md-9">
+            <%= form.select :shopify_product_id, @shopify_products.collect { |shopify_product| [shopify_product.shopify_title, shopify_product.shopify_id] }, { prompt: 'Please select a product' }, id: :order_upload_shopify_product_id, data: { selected_shopify_product: true }, class: 'form-control' %>
+            <%= display_error(:shopify_product_id, @order_upload) %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-12 col-xs-12">
+            <p class="help-block hide"><%= link_to 'Download Sample File for ', download_sample_order_file_order_uploads_path(selected_shopify_product_id: ''), data: { order_sample_csv: true } %></p>
+            <p class="help-block" data-sample-file-download-instruction = 'yes'>Please select a product to download its sample file.</p>
+          </div>
+        </div>
+
+        <div class="form-group <%= 'has-error' if has_error?(:source_email, @order_upload) %>">
+          <%= form.label :source_email, 'Email address ', class: 'required-field control-label col-xs-4 col-md-3' %>
+          <div class="col-xs-8 col-md-9">
+            <%= form.email_field :source_email, id: :order_upload_source_email, class: 'form-control' %>
+            <%= display_error(:source_email, @order_upload) %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="<%= 'has-error' if has_error?(:file, @order_upload) %>">
+            <%= form.label :file, 'Bulk Order File ', class: 'required-field control-label col-xs-4 col-md-3' %>
+            <div class="col-xs-8 col-md-9">
+              <%= form.file_field :file, id: :order_upload_file, class: 'form-control' %>
+              <%= display_error(:file, @order_upload) %>
+            </div>
+          </div>
+          <span class="help-block text-info col-xs-8 col-md-9 col-md-offset-3 col-xs-offset-4"><b>NOTE:</b> If the selected product doesn't has any variants, then use "Default Title" as variant title.</span>
+        </div>
+
+        <div class="form-group <%= 'has-error' if has_error?(:send_receipt, @order_upload) %>">
+          <div class="col-xs-12 col-md-12">
+            <%= form.check_box :send_receipt, id: :order_upload_send_receipt %>
+            <%= form.label :send_receipt, 'Send Order Confirmation Emails to Customers' %>
+            <%= display_error(:send_receipt, @order_upload) %>
+          </div>
+        </div>
+
+        <br>
+        <div class="form-group">
+          <div class="col-md-6 col-xs-8 col-md-offset-3 col-xs-offset-2">
+            <%= form.submit t(:submit_bulk_order, scope: :action), class: 'btn btn-primary col-xs-12 col-md-12' %>
+          </div>
+        </div>
+      </fieldset>
+    <% end %>
+  </div>
+</div>

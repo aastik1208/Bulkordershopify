@@ -1,0 +1,28 @@
+<%= content_tag :div, nil, id: 'shopify-app-page-title', data: { title: 'Search Country Data' } %>
+
+<div class="well col-md-6 col-xs-12 col-md-offset-1 mt-25 ">
+  <legend>Search Country by:</legend>
+  <%= form_with url: search_countries_path, local: true, class: 'form-horizontal' do |f| %>
+    <div class="form-group">
+      <%= f.label :'Full country name', class: 'control-label col-md-2 col-xs-2' %>
+      <div class="col-md-10 col-xs-10">
+        <%= f.search_field :name, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="control-label col-md-2 col-xs-2">OR</div>
+    </div>
+    <div class="form-group">
+      <%= f.label :'Country Code', class: 'control-label col-md-2 col-xs-2' %>
+      <div class="col-md-10 col-xs-10">
+        <%= f.search_field :code, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-6 col-md-offset-2">
+        <%= f.submit 'Search', class: 'btn btn-primary col-md-4 col-xs-4' %>
+      </div>
+    </div>
+  <% end %>
+</div>

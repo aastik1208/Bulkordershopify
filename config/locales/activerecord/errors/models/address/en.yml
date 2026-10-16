@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    errors:
+      models:
+        address:
+          attributes:
+            base:
+              invalid_country_code: "Country code is not valid"
+              invalid_postal_code: "Shipping postal code is not a valid for %{country_name}"
+              invalid_address_state: "Shipping address state is not a valid state in %{country_name}"
+

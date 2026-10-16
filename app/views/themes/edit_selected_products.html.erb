@@ -1,0 +1,38 @@
+<%= content_tag :div, nil, id: 'shopify-app-page-title', data: { title: 'Store-front Products' } %>
+
+<%= javascript_include_tag 'select2_enabler', 'shopify_products_fetcher.js' %>
+
+<% content_for :page_action do %>
+  <p class="col-md-6 col-xs-6"></p>
+  <p class="col-md-6 col-xs-6">
+    <%= link_to t(:back, scope: :action), edit_themes_path, data: { disable_with: 'Loading....' }, class: "btn btn-info col-md-4 col-xs-8 col-md-offset-8 col-xs-offset-4" %>
+  </p>
+<% end %>
+
+<%= render 'shared/flash_warning' %>
+
+<div class="col-md-7 col-xs-12 col-md-offset-2">
+  <div class="well">
+    <%= form_with scope: :bulk_order, url: update_selected_products_themes_path, class: 'form-horizontal', local: true do |form| %>
+      <fieldset>
+        <legend> Select Product for which bulk order form should display</legend>
+
+        <div class="form-group">
+          <%= form.label :select_products, 'Select Product', class: 'required-field control-label col-xs-4 col-md-3' %>
+          <div class="col-xs-8 col-md-9">
+            <%= form.select :select_products, options_for_select(@all_products, @previously_selected_products_shopify_ids),{} , { multiple: true, id: :bulk_order_select_product, class: 'form-control', data: { fetch_shopify_products: true, fetching_link: get_shopify_products_options_themes_path }} %>
+          </div>
+        </div>
+
+        <p class="row"></p>
+        <p class="row"></p>
+
+        <div class="form-group">
+          <div class="col-md-6 col-xs-8 col-md-offset-3 col-xs-offset-2">
+            <%= form.submit I18n.t(:submit, scope: :action), class: 'form-control btn btn-primary' %>
+          </div>
+        </div>
+      </fieldset>
+    <% end %>
+  </div>
+</div>

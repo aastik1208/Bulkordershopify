@@ -1,0 +1,4 @@
+<%= form_with model: current_shop, url: update_contact_emails_shop_path(current_shop.id) do |form| %>
+  <%= form.text_field :contact_emails, value: current_shop.contact_emails, class: 'col-md-9 content-text-field', placeholder: 'Contact Emails for mails' %>
+  <%= form.submit 'save', data: { disable_with: "Saving" }, class: 'btn btn-primary col-md-3' %>
+<% end %>

@@ -1,0 +1,40 @@
+<%= javascript_include_tag 'select2_enabler', 'filter_form_enabler', 'reset_filter_form' %>
+
+<div class="col-md-12 col-xs-12">
+  <div class="clearfix">
+    <%= link_to I18n.t(:filter, scope: :action), "#filter-bulk-order-list", class: 'btn btn-danger col-md-1 col-xs-3', data: { toggle: "collapse" } %>
+
+    <% if @ransack_param.present? %>
+      <% if @ransack_param.has_key?(:s) && @ransack_param.permit!.to_h.size != 1 || !@ransack_param.has_key?(:s) %>
+        <%= link_to I18n.t(:remove_filter, scope: :action), root_path(q: { s: @ransack_param[:s] }), class: 'col-md-2 col-xs-5' %>
+      <% end %>
+    <% end %>
+  </div>
+  
+  <p class="row"></p>
+
+  <div class="well col-md-6 col-xs-12 collapse" id="filter-bulk-order-list">
+    <%= search_form_for @q, url: root_path, class: 'form-horizontal', data: { filter_form: true } do |f| %>
+      <div class="form-group">
+        <%= f.label :source_email_cont, 'Email', class: 'control-label col-md-2 col-xs-2' %>
+        <div class="col-md-10 col-xs-10">
+          <%= f.search_field :source_email_cont, class: 'form-control', data: { filter_email_field: true } %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :shopify_product_id_in, 'Products', class: 'control-label col-md-2 col-xs-2' %>
+        <div class="col-md-10 col-xs-10">
+          <%= f.select :shopify_product_id_in, options_for_select(@shopify_product_options, @q.shopify_product_id_in),{} , { multiple: true, class: 'form-control', data: { filter_shopify_products: true, filter_product_field: true, filter_reset_select2: true } } %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-12 col-xs-12">
+          <%= f.submit I18n.t(:filter_all, scope: :action), class: 'btn btn-primary col-md-4 col-xs-4', disabled: true, data: { filter_submit_button: true } %>
+          <%= button_tag I18n.t(:reset, scope: :action), type: :reset, class: 'btn btn-default col-ms-4 col-xs-4 col-md-offset-4 col-xs-offset-4', data: { filter_reset_button: true } %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

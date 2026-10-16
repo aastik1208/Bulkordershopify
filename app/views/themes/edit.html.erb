@@ -1,0 +1,39 @@
+<%= content_tag :div, nil, id: 'shopify-app-page-title', data: { title: 'Home' } %>
+
+<% content_for :page_action do %>
+  <p class="col-md-6 col-xs-6">
+    <%= link_to I18n.t(:select_products, scope: :action), edit_selected_products_themes_path, data: { disable_with: 'Loading....' }, class: 'btn btn-primary' %>
+  </p>
+  <p class="col-md-6 col-xs-6">
+    <%= link_to t(:bulk_orders, scope: :action), root_path, data: { disable_with: 'Loading....' }, class: "btn btn-info col-md-4 col-xs-8 col-md-offset-8 col-xs-offset-4" %>
+  </p>
+<% end %>
+
+<div class="col-md-12 col-xs-12">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h2>Please follow the guidelines below to modify your theme:</h2>
+      <br>
+      <ol>
+        <li>Add the file 'section/product-bulk-order.liquid' to your live theme:-
+          <ul>
+            <li>You can <%= link_to I18n.t(:download_product_bulk_order_file, scope: :action), download_product_bulk_order_file_themes_path, target: '_blank' %> and modify your theme manually.</li>
+            <p class="row"><span class="col-md-offset-3 col-xs-offset-5">OR</span></p>
+            <li><%= link_to 'Click Here', themes_path, method: :patch %> to add file 'section/product-bulk-order.liquid' in your live theme.</li>
+          </ul>
+        </li>
+        <li>Add below line to the file, 'template/product.liquid' (may have a different name) to show the bulk order form on the product pages:-</li>
+          <div class="col-md-12 col-xs-12">
+            <div class="well col-md-11 col-xs-12">
+              {% section 'product-bulk-order' %}
+            </div>
+          </div>
+        <li>You can hide the form through it's customization settings on the <a href="#" onclick="redirect.dispatch(Redirect.Action.ADMIN_PATH, '/themes');"><%= I18n.t(:shopify_themes_page, scope: :action) %></a></li>
+      </ol>
+    <br>
+    <div>
+      <b>NOTE:- </b>Please download the <%= link_to I18n.t(:theme_modification_removal_instructions, scope: :action), theme_modification_removal_instructions_themes_path, target: '_blank' %> to remove the theme modifications.
+    </div>
+    </div>
+  </div>
+</div>

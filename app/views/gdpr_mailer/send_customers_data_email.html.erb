@@ -1,0 +1,8 @@
+<div>
+  <p><%= t(:greeting, scope: [:gdpr_mailer, :send_customers_data_email], shop_owner: @shop.shopify_owner) %></p>
+  <br>
+  <p><%= t(:first_line, scope: [:gdpr_mailer, :send_customers_data_email], shop_domain: @shop.shopify_domain, customer_email: @customer_email) %></p>
+  <br>
+  <p><%= t(:closing_line1, scope: [:gdpr_mailer, :send_customers_data_email]) %></p>
+  <p><%= t(:closing_line2, scope: [:gdpr_mailer, :send_customers_data_email]) %></p>
+</div>

@@ -1,0 +1,9 @@
+<div>
+  <p><%= t(:greeting, scope: [:order_upload_mailer, :invalid_file_structure_email], customer_name: @customer_name) %></p>
+  <br>
+  <p><%= t(:first_line, scope: [:order_upload_mailer, :invalid_file_structure_email], shop_domain: @shop.shopify_domain) %></p>
+  <p><%= t(:second_line, scope: [:order_upload_mailer, :invalid_file_structure_email], contact_emails: @shop.contact_emails) %></p>
+  <br>
+  <p><%= t(:closing_line1, scope: [:order_upload_mailer, :invalid_file_structure_email]) %></p>
+  <p><%= t(:closing_line2, scope: [:order_upload_mailer, :invalid_file_structure_email]) %></p>
+</div>

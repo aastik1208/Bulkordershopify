@@ -1,0 +1,20 @@
+.required-field::after {
+  content: '*';
+  color: red;
+}
+
+.field-error {
+  color: #b94a48;
+}
+
+.modest {
+  display: inline-block;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+.custom-file-upload-btn {
+  max-width: 200px;
+}

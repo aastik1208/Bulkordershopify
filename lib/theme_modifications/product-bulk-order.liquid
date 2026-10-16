@@ -1,0 +1,180 @@
+{% if section.settings.show_bulk_order_form %}
+
+  {% assign bulk_order_namespace = product.metafields.bulk_order %}
+
+  {% if bulk_order_namespace != blank and bulk_order_namespace.allowed == 'true' %}
+    <style type="text/css">
+      div.store_front_bulk_order a:hover {
+        text-decoration: underline;
+      }
+
+      div.store_front_bulk_order div.pbo-form-group {
+        display: grid;
+        grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+      }
+
+      div.store_front_bulk_order div.pbo-form-group label{
+        grid-column-start: 1;
+        grid-column-end: 3;
+      }
+
+      div.store_front_bulk_order div.pbo-form-group div.pbo-input-group{
+        grid-column-start: 3;
+        grid-column-end: 11;
+      }
+
+    </style>
+
+
+    <div class="store_front_bulk_order page-width" data-bulk-order='yes'>
+      <hr>
+      <h3>Bulk Order {{ product.title }}</h3>
+      {%- if customer -%}
+        <form enctype="multipart/form-data" method="post" action="{{ shop.url | append: '/apps/store_front/order_uploads' }}" data-form-for="bulk-order">
+          <h4>To make a bulk order for {{ product.title }}, please upload a csv file.</h4>
+
+          <input type="hidden" name="order_upload[shopify_product_id]" value="{{ product.id }}" required>
+          <input id="order_upload_source_email" type="hidden" value="{{ customer.email }}" name="order_upload[source_email]" required>
+          <input id="order_upload_customer_name" type="hidden" value="{{ customer.name }}" name="order_upload[customer_name]" required>
+
+          {% comment %}popn = product_option_position_and_name-["option1_position:option1_name', ..]{% endcomment %}
+          {%- assign popn = '' -%}
+          {%- for product_option in product.options_with_values -%}
+            {%- if popn != blank -%}
+              {%- assign popn = popn | append: ',' -%}
+            {%- endif -%}
+            {%- assign popn = popn | append: product_option.position | append: ':' | append: product_option.name -%}
+          {%- endfor -%}
+
+          {%- assign popn = popn | split: ',' -%}
+
+          <div>
+            <p><a data-order-sample-csv="true" href="{{ shop.url | append: '/apps/store_front/order_uploads/download_sample_order_file?shopify_product_options=' | append: popn | url_escape }}"><b>CLICK HERE</b></a> to download a sample csv file.</p>
+          </div>
+
+          <br>
+          <div class="pbo-form-group">
+            <label for="order_upload_file">Upload Bulk Order File<sup>*</sup></label>
+            <div class="pbo-input-group">
+              <input id="order_upload_file" type="file" name="order_upload[file]" accept=".csv" data-file-upload='yes' required>
+            </div>
+          </div>
+
+          <br>
+          <input type="submit" value="Submit" data-bulk-order-button='submit'>
+        </form>
+
+      {%- else -%}
+        <h4>
+          Please <span data-type='link'><b>
+            {% if shop.customer_accounts_enabled %}
+              {% if customer  %}
+                <a href="/account">Your Account</a>
+              {% else %}
+                {{ 'LOGIN' | customer_login_link }}
+                {% if shop.customer_accounts_optional %}
+                  <span>or</span>
+                  {{ 'CREATE AN ACCOUNT' | customer_register_link }}
+                {% endif %}
+              {% endif %}
+            {% endif %}
+          </b></span> to make a bulk order
+        </h4>
+      {%- endif -%}
+      <hr>
+    </div>
+
+
+    <script type="text/javascript">
+
+      window.onload = function(){
+        //
+        function loadJQueryScript(url, callback){
+          var script = document.createElement("script")
+          script.type = "text/javascript";
+
+          if (script.readyState){  //IE
+            script.onreadystatechange = function(){
+              if (script.readyState == "loaded" || script.readyState == "complete"){
+                script.onreadystatechange = null;
+                callback();
+              }
+            };
+          } else {  //Others
+            script.onload = function(){
+              callback();
+            };
+          }
+     
+          script.src = url;
+          document.getElementsByTagName("head")[0].appendChild(script);
+        }
+
+        //
+        var productBulkOrderJavascript = function($){
+          // display flash message form submit
+          $("form[data-form-for='bulk-order']").on('submit', function(event){
+            var fileUploadElement = $(this).find("input[data-file-upload='yes']")[0],
+                $fileUploadElementParent = $(fileUploadElement).parent('.pbo-input-group'),
+                $fileUploadElementFormGroup = $fileUploadElementParent.parent('.pbo-form-group');
+
+            if(isFormValid(fileUploadElement)) {
+              location.reload(true);
+              var flash = $("<div></div>").text("Your bulk Order was successfully placed. You will soon receive a confirmation email.").css({ "background-color": "#dff0d8", "color": "#3c763d", "padding": "30px" });
+              $("div[data-bulk-order='yes']").find("h3:first").before(flash);
+
+              if($fileUploadElementParent.find('p.pbo-error-msg').length){
+                $fileUploadElementFormGroup.removeClass('pbo-has-error');
+                $fileUploadElementParent.find('p.pbo-error-msg')[0].remove();
+              }
+
+              var flashDisplayDuration = 10000; //milliseconds
+              flash.delay(flashDisplayDuration).slideUp();
+
+            } else {
+              event.preventDefault();
+              if(!$fileUploadElementParent.find('p.pbo-error-msg').size()) {
+                $("head").append($("<style type='text/css'> .pbo-has-error, .pbo-has-error .pbo-error-msg{ color: red !important;} .pbo-has-error input{ border: 2px solid red !important}; </style>"));
+                $fileUploadElementFormGroup.addClass('pbo-has-error');
+                var errorElement = $("<p></p>").text("Please upload a CSV file.").addClass('pbo-error-msg');
+                $fileUploadElementParent.append(errorElement);
+              }
+            }
+          });
+        
+          function isFormValid(fileUploadElement){
+            var isValid = true;
+            if(fileUploadElement.value.split('.').pop() != 'csv')
+              isValid = false;
+            return isValid;
+          }
+        };
+
+        if ((typeof jQuery === 'undefined')) {
+          loadJQueryScript('https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js', function(){
+            jQuery331 = jQuery.noConflict(true);
+            productBulkOrderJavascript(jQuery331);
+          });
+        } else {
+          productBulkOrderJavascript(jQuery);
+        }
+      }
+    </script>
+  
+  {% endif %}
+{% endif %}
+
+
+{% schema %}
+  {
+    "name" : "Product Bulk Order",
+    "settings": [
+      {
+        "type" : "checkbox",
+        "id" : "show_bulk_order_form",
+        "label" : "Show Bulk Order Form",
+        "default" : true
+      }
+    ] 
+  }
+{% endschema %}

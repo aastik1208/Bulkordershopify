@@ -1,33 +1,180 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   "true": "foo"
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  errors:
+    messages:
+      email_verifier:
+        exception: is invalid
+
+  activerecord:
+    errors:
+      messages:
+        blank: 'cannot be blank'
+      models:
+        order_upload:
+          shipping_address_different_from_one_specified_initially: 'Shipping address does not match with the one specifed intially'
+          customer_email_different_from_one_specified_initially: 'Cusomter Email does not match with the one specifed intially'
+          cannot_update_non_failed_order_uploads: "Cannot update order upload with status, %{status}"
+
+  order_upload:
+    errors_file_name: "errors_file-%{file_file_name}.txt"
+    errors:
+      file_has_no_order_data: 'There is no data about any order in the uploaded file.'
+      errors_after_successful_upload:
+        first_line: "Following orders could not be placed due to some errors:-"
+        error: "Order Number: %{order_index} - %{error_message}"
+      warnings_after_successful_upload:
+        first_line: 'Following orders were successful placed with some warnings:-'
+        warning: "Order Number: %{order_number} - %{warning_message}"
+
+  action:
+    create_bulk_order: 'Create Bulk Order'
+    find_country_data: 'Find Country Data'
+    modify_theme: 'Modify Theme'
+    modify_live_theme: 'Modify Live Theme'
+    bulk_orders: 'Bulk Orders'
+    submit_bulk_order: 'Submit Bulk Order Request'
+    uploaded_order_file: 'Uploaded Order File'
+    error_file: 'Error File'
+    download_product_bulk_order_file: 'DOWNLOAD FILE(product-bulk-order.liquid)'
+    shopify_themes_page: 'THEMES PAGE'
+    theme_modification_removal_instructions: 'THEME MODIFICATION REMOVAL INSTRUCTIONS'
+    reupload: 'Reupload'
+    filter_all: 'Filter all'
+    filter: 'Filter'
+    reset: 'Reset'
+    remove_filter: 'Remove Filter'
+    submit: 'Submit'
+    back: 'Back'
+    select_products: 'Select Products'
+
+  flash:
+    notice:
+      bulk_order_file_successfully_upload: 'Your Bulk Order was successfully uploaded. You will soon receive status email.'
+      bulk_order_successfully_updated: 'Your Bulk Order file was successfully reuploaded. You will soon receive status email.'
+      theme_successfully_modified: 'You will receive an email soon regarding the status of your live theme modification.'
+      products_successfully_selected: "Your products selection for the store front bulk order form will soon be updated."
+    error:
+      invalid_product_selected: 'Please select a valid product.'
+      no_product_selected: 'Please select a product.'
+    shopify_error:
+      no_file_was_selected: 'Please select a file.'
+      product_selection_failed: "Your products selection for the store front bulk order form could not be completed, please try again."
+
+  order_upload_mailer:
+    invalid_file_structure_email:
+      subject: "Bulk Order - %{file_name} failed due to invalid file structure"
+      greeting: "Hello %{customer_name},"
+      first_line: "Your bulk order upload on %{shop_domain} could not be processed due to invalid file structure."
+      second_line: "Please modify the upload template and resubmit. If you continue to experience issues, please contact us at: %{contact_emails}."
+      closing_line1: "Thank you"
+      closing_line2: "Social Imprints"
+
+    invalid_file_data_email:
+      subject: "Bulk Order - %{file_name} failed due to invalid data"
+      greeting: "Hello %{customer_name},"
+      first_line: "Your bulk order upload on %{shop_domain} could not be processed due invalid data."
+      second_line: "Please refer the attached file for the errors and modify the upload template and resubmit."
+      third_line: "If you continue to experience issues, please contact us at: %{contact_emails}."
+      closing_line1: "Thank you"
+      closing_line2: "Social Imprints"
+
+    success_email:
+      subject: "Bulk Order - %{file_name} was successful."
+      greeting: "Hello %{customer_name},"
+      first_line: "Your bulk order upload on %{shop_domain} was successful. Order confirmation, and shipping confirmation, will be e-mailed to address provided."
+      second_line: "If you have any questions regarding the upload, please contact us at: %{contact_emails}."
+      closing_line1: "Thank you"
+      closing_line2: "Social Imprints"
+
+    successful_with_warning_email:
+      subject: "Bulk Order - %{file_name} was successful with warnings."
+      greeting: "Hello %{customer_name},"
+      first_line: "Your bulk order upload  on %{shop_domain} was successful, but it has some warnings."
+      second_line: "Please refer the attached file for the warnings. If you have any questions regarding the upload, please contact us at: %{contact_emails}."
+      closing_line1: "Thank you"
+      closing_line2: "Social Imprints"
+
+    successful_with_error_email:
+      subject: "Bulk Order - %{file_name} was successful with errors."
+      greeting: "Hello %{customer_name},"
+      first_line: "Your bulk order upload on %{shop_domain} was successful, but some order could not be placed due to errors."
+      second_line: "Please refer the attached file for the errors and resubmit for those orders. If you continue to experience issues, please contact us at: %{contact_emails}."
+      closing_line1: "Thank you"
+      closing_line2: "Social Imprints"
+
+    successful_with_warning_and_error_email:
+      subject: "Bulk Order - %{file_name} was successful with warnings and errors."
+      greeting: "Hello %{customer_name},"
+      first_line: "Your bulk order upload on %{shop_domain} was successful, but some order couldn’t be placed due to errors and some of the orders placed have warnings."
+      second_line: "Please refer the attached file for the warnings and errors and resubmit only for the orders with errors. If you have any questions regarding the upload or continue to experience issues, please contact us at: %{contact_emails}."
+      closing_line1: "Thank you"
+      closing_line2: "Social Imprints"
+
+  api_failure_mailer:
+    order_upload_successful_with_error_email:
+      subject: "API Failure : %{shop_domain} - bulk order was successful with errors."
+      greeting: "Hi"
+      first_line: "Thank you for ordering from - %{shop_domain}."
+      second_line: "Your bulk orders were partially placed. Some orders could not be placed."
+      third_line: "Please refer the attached file for the errors woth orders."
+
+    order_upload_successful_with_warning_and_error_email:
+      subject: "API Failure : %{shop_domain} - bulk order was successful with warning and errors."
+      greeting: "Hi"
+      first_line: "Thank you for ordering from - %{shop_domain}."
+      second_line: "Your bulk orders were partially placed."
+      third_line: "Some orders with errors were not placed and orders with warnings were placed but have some issues."
+      fourth_line: "Please refer the attached file for warnings and errors."
+
+    shop_theme_modification_failure_email:
+      subject: "API Failure : %{shop_domain} - Live theme modification failed."
+      greeting: "Hi"
+      first_line: "Live theme of %{shop_domain} could not be modified due to an Shopify API exception. Please check the issue."
+
+    forms_product_selection_failure_email:
+      subject: "API Failure : %{shop_domain} - Product Selection failed."
+      greeting: "Hi"
+      first_line: "Product to display bulk order form of %{shop_domain} could not be updated due to an Shopify API exception. Please check the issue."
+
+  developers_mailer:
+    customer_redaction_failure_email:
+      subject: 'Customer Data Redaction Failed'
+      greeting: 'Hi'
+      first_line: "Could not redact customer data for customer with email: %{customer_email}"
+
+  theme_mailer:
+    theme_already_modified_email:
+      subject: "%{shop_domain} - Live theme is already modified."
+      greeting: "Hello %{shop_owner}"
+      first_line: "Live theme of %{shop_domain} is already modified."
+      second_line: "If you have any questions regarding the theme modification, please contact us at: webstores@socialimprints.com."
+      closing_line1: "Thank you"
+      closing_line2: "Social Imprints"
+
+    theme_modification_success_email:
+      subject: "%{shop_domain} - Live theme successfully modified."
+      greeting: "Hello %{shop_owner}"
+      first_line: "Live theme of %{shop_domain} has been successfully modified."
+      second_line: "If you have any questions regarding the theme modification, please contact us at: webstores@socialimprints.com."
+      closing_line1: "Thank you"
+      closing_line2: "Social Imprints"
+
+    theme_modification_failure_email:
+      subject: "%{shop_domain} - Live theme modification failed."
+      greeting: "Hello %{shop_owner}"
+      first_line: "Live theme of %{shop_domain} could not be modified."
+      second_line: "Please try modifying the theme again. If you continue to experience issues, please contact us at: webstores@socialimprints.com."
+      closing_line1: "Thank you"
+      closing_line2: "Social Imprints"
+
+  gdpr_mailer:
+    send_customers_data_email:
+      subject: "Customer Data Requested for %{customer_email}"
+      greeting: "Hello %{shop_owner}"
+      first_line: "Please find the customer data requested for the customer of shop %{shop_domain} with email %{customer_email} used by Promo Code App attached."
+      closing_line1: "Thank you"
+      closing_line2: "Social Imprints"
+
+
+  product:
+    api_error_fetching_shopify_products: 'The products could not be loaded. Please reload the page.'

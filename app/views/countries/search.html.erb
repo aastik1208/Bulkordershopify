@@ -1,0 +1,36 @@
+<%= content_tag :div, nil, id: 'shopify-app-page-title', data: { title: 'Country Data' } %>
+
+<% if @countries.present?  %>
+  <div class="container-fluid">
+    <div class="table-responsive mb-5 mt-4">
+      <table class="table table-striped table-hover codes-data">
+        <thead>
+          <tr>
+            <th>Country Name</th>
+            <th>Country Code</th>
+            <th>Available State Details</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @countries.each do |country| %>
+            <tr>
+              <td> <%= country.name %> </td>
+              <td> <%= country.code %></td>
+              <td>
+                <% if country.states.present? %>
+                  <% country.states.order(:name).each do |state| %>
+                    <%= state.name %> : <%= state.code %> <br>
+                  <% end  %>
+                <% else %>
+                    No states details present
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
